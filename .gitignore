@@ -1,0 +1,66 @@
+## Build artifacts
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.log
+
+## Rider-specific files
+.idea/
+*.sln.iml
+
+## User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.pidb
+*.svd
+*.pdb
+*.mdb
+
+## Visual Studio Code (if used)
+.vscode/
+
+## NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Rider & ReSharper settings
+.idea/
+*.DotSettings.user
+
+## Configuration
+appsettings.*.json
+secrets.json
+
+## Others
+*.db
+*.sqlite
+*.bak
+*.swp
+*.tmp
+
+## OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## Publish outputs
+publish/
+out/
+dist/
