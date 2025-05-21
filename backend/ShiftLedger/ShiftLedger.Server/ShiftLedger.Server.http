@@ -1,0 +1,6 @@
+@ShiftLedger.Server_HostAddress = http://localhost:5264
+
+GET {{ShiftLedger.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
