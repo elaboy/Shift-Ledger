@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   postgres:
     image: postgres:16
@@ -20,6 +19,8 @@ services:
       - "5000:8080"
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8080
-      
+      - ConnectionStrings__DefaultConnection=Host=${POSTGRES_HOST};Port=${POSTGRES_PORT};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}
+    depends_on:
+      - postgres
 volumes:
   pgdata:
