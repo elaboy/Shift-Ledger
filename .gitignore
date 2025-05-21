@@ -64,3 +64,6 @@ TestResults/
 publish/
 out/
 dist/
+
+#env file
+.env
