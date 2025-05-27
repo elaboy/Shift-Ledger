@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using ShiftLedger.Core.Models;
 using ShiftLedger.Server.Data;
 
 namespace ShiftLedger.Server.Controllers;
@@ -40,5 +41,26 @@ public class HelloController : ControllerBase
 
         _logger.LogError("Database Connection Failed...");
         return BadRequest("Connection error");
+    }
+
+    [HttpPost("upload-shift")]
+    public async Task<ActionResult<string>> UploadShift([FromBody] Shift shift)
+    {
+        _logger.LogInformation($"Upload Shift Started with shift: {shift}");
+        
+        _context.Shifts.Add(shift);
+        await _context.SaveChangesAsync();
+        
+        return Ok($"Shift Saved to the Database with ID: {shift.Id}");
+    }
+
+    [HttpGet("shifts")]
+    public async Task<ActionResult<string>> GetShifts()
+    {
+        _logger.LogInformation("Getting all shifts...");
+
+        var shifts = _context.Shifts.ToList();
+        
+        return Ok(shifts);
     }
 }
