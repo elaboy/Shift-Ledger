@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         policy
-            .AllowAnyOrigin()   // or .WithOrigins("http://localhost:3000") for specific origins
+            .AllowAnyOrigin() // or .WithOrigins("http://localhost:3000") for specific origins
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -24,11 +24,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+app.UseSwagger();
+app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 app.MapControllers();
