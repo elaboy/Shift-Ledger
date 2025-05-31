@@ -16,10 +16,9 @@ export default function Shifts() {
 
     console.log(shifts);
     return (
-        <>
-            <div>
-                <ScrollList shifts={shifts}/>
-            </div>
-        </>
+        <div style={{maxWidth: "1200px", margin: "0 auto", width: "100%"}}>
+            <ScrollList shifts={shifts}/>
+        </div>
+        
     )
 }

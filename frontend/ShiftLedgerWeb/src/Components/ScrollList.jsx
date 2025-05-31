@@ -6,8 +6,9 @@ export default function ScrollList({shifts}) {
         <>
             <div style={{
                 overflowY: "scroll",
-                width: "300px",
                 height: "700px",
+                width: "100%",
+                maxWidth: "100%",
                 border: "1px solid #ccc",
                 padding: "10px",
                 }}
