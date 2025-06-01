@@ -7,6 +7,8 @@ import Shifts from "./Pages/Shifts.jsx";
 import {useNavigate} from 'react-router-dom';
 import GetMyShiftsButton from "./Components/GetMyShiftsButton.jsx";
 import NavBar from "./Components/NavBar.jsx";
+import AddShift from "./Pages/AddShift.jsx";
+import MyShifts from "./Pages/MyShifts.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -23,6 +25,8 @@ function App() {
                 <Routes>
                     <Route path="" element={<GetMyShiftsButton/>}/>
                     <Route path="/shifts" element={<Shifts/>}/>
+                    <Route path="/AddShift" element={<AddShift/>}/>
+                    <Route path="/MyShifts" element={<MyShifts/>}/>
                 </Routes>
             </div>
         </Router>
