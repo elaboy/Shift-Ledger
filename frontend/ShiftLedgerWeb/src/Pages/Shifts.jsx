@@ -18,12 +18,12 @@ export default function Shifts() {
         navigate("/MyShifts")
     }
     
-    useEffect(() => {
-        fetch(base + "/api/shifts")
-            .then(res => res.json())
-            .then(data => setShifts(data))
-            .catch(error => console.log("Failed to fetch Shifts: ", error))
-    }, []);
+    // useEffect(() => {
+    //     fetch(base + "/api/shifts")
+    //         .then(res => res.json())
+    //         .then(data => setShifts(data))
+    //         .catch(error => console.log("Failed to fetch Shifts: ", error))
+    // }, []);
 
     console.log(shifts);
     return (
