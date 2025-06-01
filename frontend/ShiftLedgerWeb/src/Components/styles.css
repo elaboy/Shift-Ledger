@@ -1,0 +1,31 @@
+/* styles.css */
+
+.nav-link-text {
+    color: white;
+    text-decoration: none;
+}
+
+.shift-button-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-shift-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.add-shift-field {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
