@@ -67,3 +67,5 @@ dist/
 
 #env file
 .env
+
+appsettings.json
