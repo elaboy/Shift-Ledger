@@ -22,7 +22,6 @@ export default function MyShifts() {
     
     return (
         <div style={{maxWidth: "1200px", margin: "0 auto", width: "100%"}}>
-            <text>Filtering Needed</text>
             <FilteringMenu></FilteringMenu>
             <ScrollList shifts={shifts}/>
         </div>
