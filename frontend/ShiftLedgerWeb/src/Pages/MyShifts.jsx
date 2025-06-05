@@ -22,12 +22,6 @@ export default function MyShifts() {
         getMyShifts();
     }, [])
     
-    useEffect(() => {
-        if(shifts.length > 0){
-            constantShifts.current = shifts;
-        }
-    }, [shifts]);
-    
     const [selectedOption, setSelectedOption] = useState('');
     console.log("constantShifts.current: ", constantShifts.current)
     return (

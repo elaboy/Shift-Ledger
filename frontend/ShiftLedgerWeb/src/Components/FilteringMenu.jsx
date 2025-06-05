@@ -1,10 +1,14 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 
+const base = "http://localhost:5000";
+
 export default function FilteringMenu({constantShifts, shifts, setShifts}) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [filterDate, setFilterDate] = React.useState(new Date);
     const [dateRange, setDateRange] = React.useState('');
+    const [startDateRange, setStartDateRange] = React.useState(new Date);
+    const [endDateRange, setEndDateRange] = React.useState(new Date);
     const [hoursWorked, setHoursWorked] = React.useState('');
     const [startTime, setStartTime] = React.useState('');
     const [endTime, setEndTime] = React.useState('');
@@ -36,11 +40,15 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
     function shiftsDateFormat(formattedDate) {
         return `${formattedDate.year}-${monthToDigitDictionary[formattedDate.month]}-${formattedDate.dayOfTheMonth}`;
     }
+    
+    function formatRawDatePicker(rawDatePicker){
+        const formattedDate = formatFilteredDate(rawDatePicker);
+        return shiftsDateFormat(formattedDate);
+    }
 
-    function setShiftsByDate(e) {
+    function handleShiftsByDate() {
         setShifts(constantShifts.current)
-        setFilterDate(e);
-        const formattedDate = shiftsDateFormat(formatFilteredDate(e));
+        const formattedDate = formatRawDatePicker(filterDate);
 
         const filtered = constantShifts.current.filter(
             shift => shift.date === formattedDate
@@ -48,15 +56,38 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
 
         setShifts(filtered);
     }
-    
-    function clearPickDateFilter(){
+
+    async function handleShiftsByDateRange(){
+        try{
+            
+            const res = await fetch(
+                base +
+                `/api/date-range?start=${formatRawDatePicker(startDateRange)}&end=${formatRawDatePicker(endDateRange)}`
+            );
+            
+            if (!res.ok) {
+                throw new Error(`An Error has been throw: ${res.statusText}`);
+            }
+            
+            const data = await res.json();
+            setShifts(data);
+        }catch(errors){
+            
+            alert(errors);
+        }
+    }
+
+    function clearPickDateFilter() {
         setFilterDate(new Date());
         setShifts(constantShifts.current);
     }
+    
+    function clearDateRangeFilter() {
+        setStartDateRange(new Date());
+        setEndDateRange(new Date());
+        setShifts(constantShifts.current);
+    }
 
-    const tryingShiftDateFormat = formatFilteredDate(filterDate);
-
-    // console.log(shifts.filter(shift => shift.date === shiftsDateFormat(tryingShiftDateFormat)));
     return (
         <>
             <button onClick={toggleMenu}>
@@ -73,11 +104,13 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <DatePicker selected={filterDate}
-                                        onChange={(e) => setShiftsByDate(e)}
-                                        showMonthYearDropdown
+                            <DatePicker 
+                                selected={filterDate}
+                                onChange={(e) => setFilterDate(e)}
+                                showMonthYearDropdown
                             />
                         </div>
+                        <button onClick={handleShiftsByDate}>Search</button>
                         <button onClick={clearPickDateFilter}>Clear Filter</button>
                     </div>
                     <div className="filter-row-container">
@@ -89,9 +122,19 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <DatePicker showMonthYearDropdown></DatePicker>
+                            <DatePicker
+                                selected={startDateRange}
+                                onChange={(e) => setStartDateRange(e)}
+                                showMonthYearDropdown
+                            />
                             <label> to</label>
-                            <DatePicker showMonthYearDropdown></DatePicker>
+                            <DatePicker
+                                selected={endDateRange}
+                                onChange={(e) => setEndDateRange(e)}
+                                showMonthYearDropdown
+                            />
+                            <button onClick={handleShiftsByDateRange}>Search</button>
+                            <button onClick={clearDateRangeFilter}>Clear Filter</button>
                         </div>
                     </div>
                     <div className="filter-row-container">

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShiftLedger.Core.Models;
 using ShiftLedger.Server.Data;
 
@@ -60,6 +61,19 @@ public class HelloController : ControllerBase
         _logger.LogInformation("Getting all shifts...");
 
         var shifts = _context.Shifts.ToList();
+        
+        return Ok(shifts);
+    }
+
+    [HttpGet("date-range")]
+    public async Task<IActionResult> GetShiftsByDateRange([FromQuery] DateOnly start, [FromQuery] DateOnly end)
+    {
+        if (start > end)
+            return BadRequest("Start date must be before end date");
+
+        var shifts = await _context.Shifts
+            .Where(shift => shift.Date >= start && shift.Date <= end)
+            .ToListAsync();
         
         return Ok(shifts);
     }
