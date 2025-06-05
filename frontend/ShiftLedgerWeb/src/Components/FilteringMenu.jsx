@@ -1,11 +1,62 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 
-export default function FilteringMenu() {
+export default function FilteringMenu({constantShifts, shifts, setShifts}) {
     const [isOpen, setIsOpen] = React.useState(false);
-
+    const [filterDate, setFilterDate] = React.useState(new Date);
+    const [dateRange, setDateRange] = React.useState('');
+    const [hoursWorked, setHoursWorked] = React.useState('');
+    const [startTime, setStartTime] = React.useState('');
+    const [endTime, setEndTime] = React.useState('');
+    const monthToDigitDictionary = {
+        "Jan": "01",
+        "Feb": "02",
+        "Mar": "03",
+        "Apr": "04",
+        "May": "05",
+        "Jun": "06",
+        "Jul": "07",
+        "Aug": "08",
+        "Sep": "09",
+        "Oct": "10",
+        "Nov": "11",
+        "Dec": "12",
+    }
     const toggleMenu = () => setIsOpen(prev => !prev);
 
+    function formatFilteredDate(date) {
+        const justDate = date.toString().split(' ');
+        const dayOfTheWeek = justDate[0];
+        const month = justDate[1];
+        const dayOfTheMonth = justDate[2];
+        const year = justDate[3];
+        return {dayOfTheWeek, dayOfTheMonth, month, year};
+    }
+
+    function shiftsDateFormat(formattedDate) {
+        return `${formattedDate.year}-${monthToDigitDictionary[formattedDate.month]}-${formattedDate.dayOfTheMonth}`;
+    }
+
+    function setShiftsByDate(e) {
+        setShifts(constantShifts.current)
+        setFilterDate(e);
+        const formattedDate = shiftsDateFormat(formatFilteredDate(e));
+
+        const filtered = constantShifts.current.filter(
+            shift => shift.date === formattedDate
+        );
+
+        setShifts(filtered);
+    }
+    
+    function clearPickDateFilter(){
+        setFilterDate(new Date());
+        setShifts(constantShifts.current);
+    }
+
+    const tryingShiftDateFormat = formatFilteredDate(filterDate);
+
+    // console.log(shifts.filter(shift => shift.date === shiftsDateFormat(tryingShiftDateFormat)));
     return (
         <>
             <button onClick={toggleMenu}>
@@ -22,8 +73,12 @@ export default function FilteringMenu() {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <DatePicker showMonthYearDropdown></DatePicker>
+                            <DatePicker selected={filterDate}
+                                        onChange={(e) => setShiftsByDate(e)}
+                                        showMonthYearDropdown
+                            />
                         </div>
+                        <button onClick={clearPickDateFilter}>Clear Filter</button>
                     </div>
                     <div className="filter-row-container">
                         <div style={{
@@ -77,7 +132,6 @@ export default function FilteringMenu() {
                                    type="time"/>
                         </div>
                     </div>
-                    <button style={{padding: "10px"}}>Submit</button>
                 </>
             )}
         </>
