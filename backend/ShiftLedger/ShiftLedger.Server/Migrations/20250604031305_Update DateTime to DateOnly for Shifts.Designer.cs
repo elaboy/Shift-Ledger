@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShiftLedger.Server.Data;
@@ -11,9 +12,11 @@ using ShiftLedger.Server.Data;
 namespace ShiftLedger.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250604031305_Update DateTime to DateOnly for Shifts")]
+    partial class UpdateDateTimetoDateOnlyforShifts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,9 +71,6 @@ namespace ShiftLedger.Server.Migrations
 
                     b.Property<TimeSpan>("EndTime")
                         .HasColumnType("interval");
-
-                    b.Property<decimal>("HoursWorked")
-                        .HasColumnType("numeric");
 
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("interval");

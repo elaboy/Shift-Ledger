@@ -5,7 +5,7 @@ export default function ShiftCard({date, startTime, endTime, hoursWorked}) {
         const [hour, minutes] = time.split(":");
         return `${hour}:${minutes}`;
     }
-    const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    const formattedDate = new Date(date + "T12:00:00").toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
