@@ -6,12 +6,12 @@ const base = "http://localhost:5000";
 export default function FilteringMenu({constantShifts, shifts, setShifts}) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [filterDate, setFilterDate] = React.useState(new Date);
-    const [dateRange, setDateRange] = React.useState('');
     const [startDateRange, setStartDateRange] = React.useState(new Date);
     const [endDateRange, setEndDateRange] = React.useState(new Date);
     const [hoursWorked, setHoursWorked] = React.useState('');
     const [startTime, setStartTime] = React.useState('');
     const [endTime, setEndTime] = React.useState('');
+
     const monthToDigitDictionary = {
         "Jan": "01",
         "Feb": "02",
@@ -40,8 +40,8 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
     function shiftsDateFormat(formattedDate) {
         return `${formattedDate.year}-${monthToDigitDictionary[formattedDate.month]}-${formattedDate.dayOfTheMonth}`;
     }
-    
-    function formatRawDatePicker(rawDatePicker){
+
+    function formatRawDatePicker(rawDatePicker) {
         const formattedDate = formatFilteredDate(rawDatePicker);
         return shiftsDateFormat(formattedDate);
     }
@@ -57,34 +57,59 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
         setShifts(filtered);
     }
 
-    async function handleShiftsByDateRange(){
-        try{
-            
+    async function handleShiftsByDateRange() {
+        try {
+
             const res = await fetch(
                 base +
                 `/api/date-range?start=${formatRawDatePicker(startDateRange)}&end=${formatRawDatePicker(endDateRange)}`
             );
-            
+
             if (!res.ok) {
                 throw new Error(`An Error has been throw: ${res.statusText}`);
             }
-            
+
             const data = await res.json();
             setShifts(data);
-        }catch(errors){
-            
+        } catch (errors) {
+
             alert(errors);
         }
+    }
+
+    async function handleHoursWorked() {
+        try {
+            const res = await fetch(
+                base +
+                `/api/hours-worked?hoursWorked=${hoursWorked}`
+            )
+            if (!res.ok) {
+                throw new Error(`An Error has been throw: ${res.statusText}`);
+            }
+            const data = await res.json();
+            setShifts(data);
+        } catch (errors) {
+            alert(errors);
+        }
+    }
+    
+    function handleUpdateHoursWorked(e){
+        setHoursWorked(e.target.value);
     }
 
     function clearPickDateFilter() {
         setFilterDate(new Date());
         setShifts(constantShifts.current);
     }
-    
+
     function clearDateRangeFilter() {
         setStartDateRange(new Date());
         setEndDateRange(new Date());
+        setShifts(constantShifts.current);
+    }
+    
+    function clearHoursWorkedFilter() {
+        setHoursWorked(null)
         setShifts(constantShifts.current);
     }
 
@@ -104,7 +129,7 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <DatePicker 
+                            <DatePicker
                                 selected={filterDate}
                                 onChange={(e) => setFilterDate(e)}
                                 showMonthYearDropdown
@@ -146,7 +171,9 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <input placeholder="i.e. 4:00 or 5:30"/>
+                            <input placeholder="i.e. 4:00 or 5:30" value={hoursWorked} onChange={handleUpdateHoursWorked}/>
+                            <button onClick={handleHoursWorked}>Submit</button>
+                            <button onClick={clearHoursWorkedFilter}>Clear Filter</button>
                         </div>
                     </div>
                     <div className="filter-row-container">

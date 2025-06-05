@@ -9,5 +9,5 @@ public class Shift
     public DateOnly Date { get; set; }
     public TimeSpan StartTime { get; set; }
     public TimeSpan EndTime { get; set; }
-    public decimal HoursWorked => (decimal)(EndTime - StartTime).TotalHours;
+    public decimal HoursWorked { get; set; }
 }
