@@ -92,8 +92,42 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
             alert(errors);
         }
     }
-    
-    function handleUpdateHoursWorked(e){
+
+    async function handleStartTimeShifts() {
+        console.log(startTime);
+        try {
+            const res = await fetch(
+                base +
+                `/api/start-time?startTime=${startTime}`
+            )
+            if (!res.ok) {
+                throw new Error(`An Error has been throw: ${res.statusText}`)
+            }
+            const data = await res.json();
+            setShifts(data);
+        } catch (errors) {
+            alert(errors);
+        }
+    }
+
+    async function handleEndTimeShifts() {
+        console.log(startTime);
+        try {
+            const res = await fetch(
+                base +
+                `/api/end-time?endTime=${endTime}`
+            )
+            if (!res.ok) {
+                throw new Error(`An Error has been throw: ${res.statusText}`)
+            }
+            const data = await res.json();
+            setShifts(data);
+        } catch (errors) {
+            alert(errors);
+        }
+    }
+
+    function handleUpdateHoursWorked(e) {
         setHoursWorked(e.target.value);
     }
 
@@ -107,9 +141,19 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
         setEndDateRange(new Date());
         setShifts(constantShifts.current);
     }
-    
+
     function clearHoursWorkedFilter() {
-        setHoursWorked(null)
+        setHoursWorked('')
+        setShifts(constantShifts.current);
+    }
+
+    function clearStartTimeFilter() {
+        setStartTime("");
+        setShifts(constantShifts.current);
+    }
+
+    function clearEndTimeFilter() {
+        setEndTime("");
         setShifts(constantShifts.current);
     }
 
@@ -171,7 +215,8 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <input placeholder="i.e. 4:00 or 5:30" value={hoursWorked} onChange={handleUpdateHoursWorked}/>
+                            <input placeholder="i.e. 4:00 or 5:30" value={hoursWorked}
+                                   onChange={handleUpdateHoursWorked}/>
                             <button onClick={handleHoursWorked}>Submit</button>
                             <button onClick={clearHoursWorkedFilter}>Clear Filter</button>
                         </div>
@@ -186,7 +231,15 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                             padding: "10px",
                         }}>
                             <input aria-label="time"
-                                   type="time"/>
+                                   type="time"
+                                   value={startTime}
+                                   onChange={(e) => {
+                                       const time = e.target.value;
+                                       setStartTime(`${time}:00`);
+                                   }}
+                            />
+                            <button onClick={handleStartTimeShifts}>Submit</button>
+                            <button onClick={clearStartTimeFilter}>Clear Filter</button>
                         </div>
                     </div>
                     <div className="filter-row-container">
@@ -199,7 +252,15 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                             padding: "10px",
                         }}>
                             <input aria-label="time"
-                                   type="time"/>
+                                   type="time"
+                                   value={endTime}
+                                   onChange={(e) => {
+                                       const time = e.target.value;
+                                       setEndTime(`${time}:00`);
+                                   }}
+                            />
+                            <button onClick={handleEndTimeShifts}>Submit</button>
+                            <button onClick={clearEndTimeFilter}>Clear Filter</button>
                         </div>
                     </div>
                 </>

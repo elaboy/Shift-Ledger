@@ -108,4 +108,30 @@ public class HelloController : ControllerBase
         
         return Ok(shifts);
     }
+
+    [HttpGet("start-time")]
+    public async Task<IActionResult> GetStartTime([FromQuery] TimeSpan startTime)
+    {
+        if (startTime < TimeSpan.Zero)
+            return BadRequest("Start time must be greater than 0");
+        
+        var shifts = await _context.Shifts
+            .Where(shift => shift.StartTime == startTime)
+            .ToListAsync();
+
+        return Ok(shifts);
+    }
+
+    [HttpGet("end-time")]
+    public async Task<IActionResult> GetEndTime([FromQuery] TimeSpan endTime)
+    {
+        if (endTime < TimeSpan.Zero)
+            return BadRequest("End time must be greater than 0");
+        
+        var shifts = await _context.Shifts
+            .Where(shift => shift.EndTime == endTime)
+            .ToListAsync();
+        
+        return Ok(shifts);
+    }
 }
