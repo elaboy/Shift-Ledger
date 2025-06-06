@@ -158,9 +158,9 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
     }
 
     return (
-        <>
-            <button onClick={toggleMenu}>
-                {isOpen ? 'Close Filtering' : 'Open Filtering'}
+        <div className="filter-menu">
+            <button id="filter-button" onClick={toggleMenu}>
+                {isOpen ? 'Close Filtering' : 'Filter Shifts'}
             </button>
             {isOpen && (
                 <>
@@ -174,13 +174,24 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                             padding: "10px",
                         }}>
                             <DatePicker
+                                className="date-picker"
                                 selected={filterDate}
                                 onChange={(e) => setFilterDate(e)}
                                 showMonthYearDropdown
                             />
                         </div>
-                        <button onClick={handleShiftsByDate}>Search</button>
-                        <button onClick={clearPickDateFilter}>Clear Filter</button>
+                        <button
+                            className="search-button"
+                            onClick={handleShiftsByDate}
+                        >
+                            Search
+                        </button>
+                        <button
+                            className="clear-filter-button"
+                            onClick={clearPickDateFilter}
+                        >
+                            Clear Filter
+                        </button>
                     </div>
                     <div className="filter-row-container">
                         <div style={{
@@ -192,18 +203,30 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                             padding: "10px",
                         }}>
                             <DatePicker
+                                className="date-picker"
                                 selected={startDateRange}
                                 onChange={(e) => setStartDateRange(e)}
                                 showMonthYearDropdown
                             />
-                            <label> to</label>
+                            <label> - </label>
                             <DatePicker
+                                className="date-picker"
                                 selected={endDateRange}
                                 onChange={(e) => setEndDateRange(e)}
                                 showMonthYearDropdown
                             />
-                            <button onClick={handleShiftsByDateRange}>Search</button>
-                            <button onClick={clearDateRangeFilter}>Clear Filter</button>
+                            <button
+                                className="search-button"
+                                onClick={handleShiftsByDateRange}
+                            >
+                                Search
+                            </button>
+                            <button
+                                className="clear-filter-button"
+                                onClick={clearDateRangeFilter}
+                            >
+                                Clear Filter
+                            </button>
                         </div>
                     </div>
                     <div className="filter-row-container">
@@ -215,10 +238,23 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                         <div style={{
                             padding: "10px",
                         }}>
-                            <input placeholder="i.e. 4:00 or 5:30" value={hoursWorked}
-                                   onChange={handleUpdateHoursWorked}/>
-                            <button onClick={handleHoursWorked}>Submit</button>
-                            <button onClick={clearHoursWorkedFilter}>Clear Filter</button>
+                            <input
+                                id="hours-worked-input"
+                                type="number"
+                                value={hoursWorked}
+                                onChange={handleUpdateHoursWorked}/>
+                            <button
+                                className="search-button"
+                                onClick={handleHoursWorked}
+                            >
+                                Submit
+                            </button>
+                            <button
+                                className="clear-filter-button"
+                                onClick={clearHoursWorkedFilter}
+                            >
+                                Clear Filter
+                            </button>
                         </div>
                     </div>
                     <div className="filter-row-container">
@@ -238,8 +274,18 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                                        setStartTime(`${time}:00`);
                                    }}
                             />
-                            <button onClick={handleStartTimeShifts}>Submit</button>
-                            <button onClick={clearStartTimeFilter}>Clear Filter</button>
+                            <button
+                                className="search-button"
+                                onClick={handleStartTimeShifts}
+                            >
+                                Submit
+                            </button>
+                            <button
+                                className="clear-filter-button"
+                                onClick={clearStartTimeFilter}
+                            >
+                                Clear Filter
+                            </button>
                         </div>
                     </div>
                     <div className="filter-row-container">
@@ -259,12 +305,22 @@ export default function FilteringMenu({constantShifts, shifts, setShifts}) {
                                        setEndTime(`${time}:00`);
                                    }}
                             />
-                            <button onClick={handleEndTimeShifts}>Submit</button>
-                            <button onClick={clearEndTimeFilter}>Clear Filter</button>
+                            <button
+                                className="search-button"
+                                onClick={handleEndTimeShifts}
+                            >
+                                Submit
+                            </button>
+                            <button
+                                className="clear-filter-button"
+                                onClick={clearEndTimeFilter}
+                            >
+                                Clear Filter
+                            </button>
                         </div>
                     </div>
                 </>
             )}
-        </>
+        </div>
     )
 }
